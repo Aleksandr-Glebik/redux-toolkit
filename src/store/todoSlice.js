@@ -37,6 +37,11 @@ export const deleteTodo = createAsyncThunk(
     }
 )
 
+const setError = (state, action) => {
+    state.status = 'rejected'
+    state.error = action.payload
+}
+
 const todoSlice = createSlice({
     name: 'todos',
     initialState: {
@@ -71,14 +76,8 @@ const todoSlice = createSlice({
             state.status = 'resolved'
             state.todos = action.payload
         },
-        [fetchTodos.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload
-        },
-        [deleteTodo.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload
-        }
+        [fetchTodos.rejected]: setError,
+        [deleteTodo.rejected]: setError,
     }
 })
 
