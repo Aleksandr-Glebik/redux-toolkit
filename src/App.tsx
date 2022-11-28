@@ -1,16 +1,16 @@
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { useState, useEffect } from 'react';
 
-import TodoList from './component/TodoList';
-import InputField from './component/InputField';
+import TodoList from './component/TodoList.tsx';
+import InputField from './component/InputField.tsx';
 
-import {useDispatch, useSelector} from 'react-redux'
-import {addNewTodo, fetchTodos} from './store/todoSlice'
+import {useAppDispatch, useAppSelector} from './hook.ts'
+import {addNewTodo, fetchTodos} from './store/todoSlice.ts'
 
 function App() {
   const [text, setText] = useState('')
-  const dispatch = useDispatch()
-  const {status, error} = useSelector(state => state.todos)
+  const dispatch = useAppDispatch()
+  const {loading, error} = useAppSelector(state => state.todos)
 
   const addTask = () => {
     dispatch(addNewTodo(text))
@@ -28,7 +28,7 @@ function App() {
                   addTodo={addTask}
       />
 
-      {status === 'loading' && <h3>Loading...</h3>}
+      {loading && <h3>Loading...</h3>}
       {error && <h3>An error occured: {error}</h3>}
       <TodoList />
     </div>
